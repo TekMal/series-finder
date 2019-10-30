@@ -1,19 +1,26 @@
-fetch('http://www.omdbapi.com/?type=series&s=friends&plot=full&r=json&page=5&apikey=6b6ec75b')
-  .then(
+fetch('http://www.omdbapi.com/?type=series&s=friends&plot=full&r=json&page=28&apikey=6b6ec75b')
+.then(
     function(response) {
       if (response.status !== 200) {
         console.log(response.status);
         return;
       }
       response.json().then(function(data) {
-          console.log(data)
-            //showData(data['Search']);
+          createUrlForPages(Math.ceil(data['totalResults'] / 10))
       });
     }
   )
   .catch(function(err) {
     console.log('Error: ', err);
   });
+
+function createUrlForPages(pages){
+    let urlsForPages = []
+    for(let i=1; i<=pages; i++){
+        urlsForPages.push(fetch(`http://www.omdbapi.com/?type=series&s=friends&plot=full&r=json&page=${i}&apikey=6b6ec75b`))
+    }
+    Promise.all(urlsForPages).then(response => response.forEach(response => response.json().then(data => showData(data['Search']))))
+} 
 
   function showData(data){
         let box = document.getElementById("series_container")
@@ -29,3 +36,7 @@ fetch('http://www.omdbapi.com/?type=series&s=friends&plot=full&r=json&page=5&api
       })
   }
 
+  //10 results 
+  //fetch title
+  //scroll 
+  //rwd
