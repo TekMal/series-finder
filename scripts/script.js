@@ -2,6 +2,7 @@ let searchButton = document.getElementById('find')
 searchButton.addEventListener('click', searchSeries)
 
 function searchSeries(){
+    clearBox('series-container')
     let inputSearch = (document.getElementById('series-search').value).toString()
     fetch(`http://www.omdbapi.com/?type=series&s=${inputSearch}&plot=full&r=json&apikey=6b6ec75b`)
     .then(
@@ -11,7 +12,12 @@ function searchSeries(){
         return;
       }
       response.json().then(function(data) {
-          createUrlForPages(Math.ceil(data['totalResults'] / 10), inputSearch)
+          if(data['Response'] === 'True'){
+            getTotalResults(Math.ceil(data['totalResults'] / 10), inputSearch)
+          }
+          else{
+            noResults()
+          }
       });
     }
   )
@@ -20,8 +26,15 @@ function searchSeries(){
   });
 }
 
+function noResults(){
+    let box = document.getElementById("series-container")
+    let info = createElementWithClassname('h2', 'info-no-results')
+    info.innerHTML = "No results"
+    box.appendChild(info)
+}
 
-function createUrlForPages(pages, title){
+
+function getTotalResults(pages, title){
     let urlsForPages = []
     for(let i=1; i<=pages; i++){
         urlsForPages.push(fetch(`http://www.omdbapi.com/?type=series&s=${title}&plot=full&r=json&page=${i}&apikey=6b6ec75b`))
@@ -32,8 +45,7 @@ function createUrlForPages(pages, title){
   function showData(data){
         let box = document.getElementById("series-container")
         data.forEach(item => {
-            let image = document.createElement("img")
-            image.className = 'poster'
+            let image = createElementWithClassname('img', 'poster')
             if(item.Poster !== "N/A"){
                 image.src = item.Poster}
             else{
@@ -43,7 +55,13 @@ function createUrlForPages(pages, title){
       })
   }
 
-  //10 results 
-  //fetch title
-  //scroll 
-  //rwd
+
+  function clearBox(elementID)
+{
+    document.getElementById(elementID).innerHTML = "";
+}
+function createElementWithClassname(elementTag, elementClassName){
+    let element = document.createElement(elementTag)
+    element.className = elementClassName
+    return element
+}
