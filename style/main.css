@@ -1,0 +1,31 @@
+.main-section{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+.single-series{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    box-shadow: 4px 0px 11px -6px rgba(0, 0, 0, 0.56);
+    text-align: left;
+    margin-bottom: 1em;
+  }
+
+.description{
+    display: flex;
+    flex-direction: column;
+}
+
+.poster{
+    width: 100px;
+    height: 150px;
+}
+.plot{
+    width: 150px;
+}
+.title{
+    width: 150px;
+}
