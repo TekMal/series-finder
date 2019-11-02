@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="./assets/favicon.ico" rel="icon" type="image/x-icon" >
     <link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/main.css">
     <title>Finder</title>
 </head>
 <body>
-    <nav>
-        <label for="series-search">Search series by title:</label>
-        <input type="search" id="series-search" name="search">
-        <button id="find">Search</button>
+    <nav class="navigation">
+        <label class="navigation__label" for="series-search">Find your series</label>
+        <input class="navigation__input" type="search" id="series-search" placeholder="Title...">
+        <button class="navigation__button" id="find">Search</button>
     </nav>
-    <main id="series-container" class="main-section">
+    <main class="main-section" id="series-container">
+        <img class="main-section__initial-image" src="https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=740&q=80">
     </main>
     <script src="scripts/script.js"></script>
 </body>

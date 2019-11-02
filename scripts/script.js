@@ -6,12 +6,11 @@ searchButton.addEventListener('click', searchSeries)
 function searchSeries(){
     clearBox('series-container')
     const inputSearch = (document.getElementById('series-search').value).toString()
-    fetch(`http://www.omdbapi.com/?type=series&s=${inputSearch}&r=json&apikey=6b6ec75b`)
+    fetch(`http://www.omdbapi.com/?type=series&s=${inputSearch}&r=json&apikey=40e9cece`)
     .then(
     function(response) {
       if (response.status !== 200) {
         console.log(response.status)
-        return
       }
       response.json().then(function(data) {
           if(data['Response'] === 'True'){
@@ -30,7 +29,7 @@ function searchSeries(){
 function getTotalResults(pages, title){
     const urlsForPages = []
     for(let i=1; i<=pages; i++){
-        urlsForPages.push(fetch(`http://www.omdbapi.com/?type=series&s=${title}&r=json&page=${i}&apikey=6b6ec75b`))
+        urlsForPages.push(fetch(`http://www.omdbapi.com/?type=series&s=${title}&r=json&page=${i}&apikey=40e9cece`))
     }
     Promise.all(urlsForPages).then(response => response.forEach(response => response.json().then(data => getAllData(data['Search']))))
 }
@@ -42,7 +41,7 @@ function getAllData(data){
 }
 const allResults = []
 function getSingleSeriesById(id){
-    fetch(`http://www.omdbapi.com/?type=series&i=${id}&plot=short&r=json&apikey=6b6ec75b`)
+    fetch(`http://www.omdbapi.com/?type=series&i=${id}&plot=short&r=json&apikey=40e9cece`)
     .then(
     function(response) {
       if (response.status !== 200) {
@@ -66,9 +65,9 @@ function getSingleSeriesById(id){
 }
 
 function createSingleSeriesItem(item){
-    const seriesBox = createElementWithClassname('div', 'single-series')
-    const poster = createElementWithClassname('div', 'poster-box')
-    const description = createElementWithClassname('div', 'description')
+    const seriesBox = createElementWithClassname('div', 'main-section__single-series')
+    const poster = createElementWithClassname('div', 'single-series__poster-box')
+    const description = createElementWithClassname('div', 'single-series__description')
     poster.appendChild(createPoster(item))
     description.appendChild(createTitle(item))
     description.appendChild(createDate(item))
@@ -81,7 +80,7 @@ function createSingleSeriesItem(item){
 }
 
 function createPoster(item){
-    const image = createElementWithClassname('img', 'poster')
+    const image = createElementWithClassname('img', 'poster-box__poster')
         if(item.Poster !== "N/A"){
             image.src = item.Poster}
         else{
@@ -90,12 +89,12 @@ function createPoster(item){
     return image
 }
 function createTitle(item){
-    const title = createElementWithClassname('h2', 'title')
+    const title = createElementWithClassname('h2', 'description__title')
     title.innerHTML = item.Title
     return title
 }
 function createDate(item){
-    const year = createElementWithClassname('p', 'year')
+    const year = createElementWithClassname('p', 'description__year')
         if(item.Year !== "N/A"){
             year.innerHTML = item.Year}
         else{
@@ -104,7 +103,7 @@ function createDate(item){
     return year
 }
 function createRuntime(item){
-    const runtime = createElementWithClassname('p', 'runtime')
+    const runtime = createElementWithClassname('p', 'description__runtime')
     if(item.Runtime !== "N/A"){
         runtime.innerHTML = item.Runtime}
     else{
@@ -113,7 +112,7 @@ function createRuntime(item){
     return runtime
 }
 function createRating(item){
-    const rating = createElementWithClassname('p', 'rating')
+    const rating = createElementWithClassname('p', 'description__rating')
     if(item.Ratings.length !== 0){
         rating.innerHTML = item.Ratings[0].Value}
     else{
@@ -122,7 +121,7 @@ function createRating(item){
     return rating
 }
 function createPlot(item){
-    const plot = createElementWithClassname('p', 'plot')
+    const plot = createElementWithClassname('p', 'description__plot')
     if(item.Plot !== "N/A"){
         plot.innerHTML = item.Plot.substring(0, plotLength)}
     else{
