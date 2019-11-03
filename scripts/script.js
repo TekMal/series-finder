@@ -15,7 +15,6 @@ ratingButtons.forEach(item => {
         filterRating(item.innerHTML, allResults)
     })
 })
-
 function filterRating(rating, data){
     const filteredData = data.filter(item => {
         if(item.Ratings.length !== 0){
@@ -32,7 +31,6 @@ function filterRating(rating, data){
         noResults('No series found with this rating')
     }
 }
- 
 function searchSeries(){
     allResults = []
     clearBox('series-container')
@@ -40,21 +38,20 @@ function searchSeries(){
     fetch(`http://www.omdbapi.com/?type=series&s=${inputSearchValue}&r=json&apikey=40e9cece`)
     .then(
     function(response) {
-      if (response.status !== 200) {
-        console.log(response.status)
-      }
-      response.json().then(function(data) {
-          if(data['Response'] === 'True'){
-            getTotalResults(Math.ceil(data['totalResults'] / 10), inputSearchValue)
-          }
-          else{
-            noResults('No results')
-          }
-      })
-    }
-  )
+        if (response.status !== 200) {
+            console.log(response.status)
+        }
+        response.json().then(function(data) {
+            if(data['Response'] === 'True'){
+                getTotalResults(Math.ceil(data['totalResults'] / 10), inputSearchValue)
+            }
+            else{
+                noResults('No results')
+            }
+        })
+    })
   .catch(function(err) {
-    console.log('Error: ', err)
+        console.log('Error: ', err)
   })
 }
 function getTotalResults(pages, title){
@@ -64,36 +61,32 @@ function getTotalResults(pages, title){
     }
     Promise.all(urlsForPages).then(response => response.forEach(response => response.json().then(data => getAllData(data['Search']))))
 }
-
 function getAllData(data){
     data.forEach(item => {
         getSingleSeriesById(item.imdbID)
-      })
+    })
 }
-
 function getSingleSeriesById(id){
     fetch(`http://www.omdbapi.com/?type=series&i=${id}&plot=short&r=json&apikey=40e9cece`)
     .then(
     function(response) {
-      if (response.status !== 200) {
-        console.log(response.status)
-      }
-      response.json().then(function(data) {
-          if(data['Response'] === 'True'){
-            mainSection.appendChild(createSingleSeriesItem(data))
-            allResults.push(data)
-          }
-          else{
-            console.log("no result response : false")
-          }
-      })
-    }
-  )
-  .catch(function(err) {
-    console.log('Error: ', err)
-  })
+        if (response.status !== 200) {
+            console.log(response.status)
+        }
+        response.json().then(function(data) {
+            if(data['Response'] === 'True'){
+                mainSection.appendChild(createSingleSeriesItem(data))
+                allResults.push(data)
+            }
+            else{
+                console.log("no result response : false")
+            }
+        })
+    })
+    .catch(function(err) {
+        console.log('Error: ', err)
+    })
 }
-
 function createSingleSeriesItem(item){
     const seriesBox = createElementWithClassname('div', 'main-section__single-series')
     const poster = createElementWithClassname('div', 'single-series__poster-box')
@@ -113,7 +106,6 @@ function createSingleSeriesItem(item){
     seriesBox.appendChild(description)
     return seriesBox
 }
-
 function createPoster(item){
     const image = createElementWithClassname('img', 'poster-box__poster')
         if(item.Poster !== "N/A"){
@@ -132,7 +124,7 @@ function createDate(item){
     const year = createElementWithClassname('p', 'description__year')
         if(item.Year !== "N/A"){
             if(isNaN(item.Year.slice(-1))){
-                year.innerHTML = item.Year.slice(0, -1);
+                year.innerHTML = item.Year.slice(0, -1)
             }
             else{
                 year.innerHTML = item.Year
