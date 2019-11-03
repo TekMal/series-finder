@@ -110,13 +110,13 @@ textarea:focus, input:focus, button:focus, .filter-and-sort__sort:focus, .filter
     background-color:#F0F0F0;
     margin: 0 0 5px 0
 }
-.filter-and-sort__sort-title, .filter-and-sort__filter-title{
+.filter-and-sort__sort-title, .filter-and-sort__filter-title-year, .filter-and-sort__filter-rating{
     font-size: 15px;;
     margin-right: 10px;
     margin-left: 10px;
     color: 	#505050;
 }
-.filter-and-sort__sort, .filter-and-sort__filter-year, .filter-and-sort__filter-rating{
+.filter-and-sort__sort, .filter-and-sort__filter-year{
     width: 10%;
     font-size: 12px;
     color: #505050;
@@ -129,6 +129,27 @@ textarea:focus, input:focus, button:focus, .filter-and-sort__sort:focus, .filter
 }
 .filter-and-sort__sort:hover, .filter-and-sort__filter-year:hover, .filter-and-sort__filter-rating:hover{
     cursor: pointer;
+}
+.rating-buttons{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+}
+.rating-buttons__button{
+    margin-right: 5px;
+    background: none;
+    font-size: 12px;
+    padding: 2px;
+    border: 1px solid 	#A0A0A0;
+    color: #505050;
+    border-radius: 50%;
+    width: 20px;
+}
+.rating-buttons__button:hover{
+    cursor: pointer;
+    color: black;
+    font-weight: 600;
 }
 .main-section{
     display: flex;

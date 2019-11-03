@@ -1,13 +1,40 @@
 const searchButton = document.getElementById('find')
 const inputSearch = document.getElementById('series-search')
 const mainSection = document.getElementById("series-container")
+const ratingButtons = document.querySelectorAll("[id=filter-rating]")
 const plotLength = 100
+let allResults = []
 //const controller = new AbortController()
 //const signal = controller.signal
 searchButton.addEventListener('click', searchSeries)
 addKeypressSearch(inputSearch)
+
+ratingButtons.forEach(item => {
+    console.log(item.innerHTML)
+    item.addEventListener('click', function (){
+        filterRating(item.innerHTML, allResults)
+    })
+})
+
+function filterRating(rating, data){
+    const filteredData = data.filter(item => {
+        if(item.Ratings.length !== 0){
+            return item.Ratings[0].Value.slice(0, 1) == rating
+        }
+    })
+    clearBox('series-container')
+    if(filteredData.length > 0){
+        filteredData.forEach(item => {
+            mainSection.appendChild(createSingleSeriesItem(item))
+        })
+    }
+    else{
+        noResults('No series found with this rating')
+    }
+}
  
 function searchSeries(){
+    allResults = []
     clearBox('series-container')
     const inputSearchValue = inputSearch.value.toString()
     fetch(`http://www.omdbapi.com/?type=series&s=${inputSearchValue}&r=json&apikey=40e9cece`)
@@ -43,7 +70,7 @@ function getAllData(data){
         getSingleSeriesById(item.imdbID)
       })
 }
-//const allResults = []
+
 function getSingleSeriesById(id){
     fetch(`http://www.omdbapi.com/?type=series&i=${id}&plot=short&r=json&apikey=40e9cece`)
     .then(
@@ -54,7 +81,7 @@ function getSingleSeriesById(id){
       response.json().then(function(data) {
           if(data['Response'] === 'True'){
             mainSection.appendChild(createSingleSeriesItem(data))
-            //allResults.push(data)
+            allResults.push(data)
           }
           else{
             console.log("no result response : false")
@@ -128,7 +155,8 @@ function createRuntime(item){
 function createRating(item){
     const rating = createElementWithClassname('p', 'description__rating')
     if(item.Ratings.length !== 0){
-        rating.innerHTML = item.Ratings[0].Value}
+        rating.innerHTML = item.Ratings[0].Value
+    }
     else{
         rating.innerHTML = "unknown"
     }
@@ -143,17 +171,14 @@ function createPlot(item){
     }
     return plot
 }
-
 function clearBox(elementID){
     document.getElementById(elementID).innerHTML = ""
 }
-
 function createElementWithClassname(elementTag, elementClassName){
     const element = document.createElement(elementTag)
     element.className = elementClassName
     return element
 }
-
 function noResults(content){
     const box = document.getElementById("series-container")
     const info = createElementWithClassname('h2', 'info-no-results')
@@ -165,5 +190,5 @@ function addKeypressSearch(element){
         if (e.keyCode == 13) {
             searchSeries()
         }
-    });
+    })
 }
