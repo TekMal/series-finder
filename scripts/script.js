@@ -2,52 +2,12 @@ const searchButton = document.getElementById('find')
 const inputSearch = document.getElementById('series-search')
 const mainSection = document.getElementById("series-container")
 const ratingButtons = document.querySelectorAll("[id=filter-rating]")
-const sortByRating = document.getElementById
-const sortByYear = document.getElementById
 const plotLength = 100
 let allResults = []
 //const controller = new AbortController()
 //const signal = controller.signal
 searchButton.addEventListener('click', searchSeries)
 addKeypressSearch(inputSearch)
-document.getElementById('filter-year').addEventListener('click', function (){
-    sortItemByYear(allResults)
-})
-
-ratingButtons.forEach(item => {
-    console.log(item.innerHTML)
-    item.addEventListener('click', function (){
-        filterRating(item.innerHTML, allResults)
-    })
-})
-function filterRating(rating, data){
-    const filteredData = data.filter(item => {
-        if(item.Ratings.length !== 0){
-            return item.Ratings[0].Value.slice(0, 1) == rating
-        }
-    })
-    clearBox('series-container')
-    if(filteredData.length > 0){
-        filteredData.forEach(item => {
-            mainSection.appendChild(createSingleSeriesItem(item))
-        })
-    }
-    else{
-        noResults('No series found with this rating')
-    }
-}
-function sortItemByYear(data){
-    const filteredData = data.sort(function(a, b){return parseInt(a.Year.slice(0, 3)) - parseInt(b.Year.slice(0, 3))})
-    clearBox('series-container')
-    if(filteredData.length > 0){
-        filteredData.forEach(item => {
-            mainSection.appendChild(createSingleSeriesItem(item))
-        })
-    }
-    else{
-        noResults('ojS')
-    }
-}
 function searchSeries(){
     allResults = []
     clearBox('series-container')
@@ -63,7 +23,7 @@ function searchSeries(){
                 getTotalResults(Math.ceil(data['totalResults'] / 10), inputSearchValue)
             }
             else{
-                noResults('No results')
+                noResults('Any results')
             }
         })
     })
@@ -179,6 +139,53 @@ function createPlot(item){
         plot.innerHTML = "unknown"
     }
     return plot
+}
+document.getElementById('sort-year').addEventListener('click', function (){
+    sortItemByYear(allResults)
+})
+document.getElementById('sort-rating').addEventListener('click', function (){
+    sortItemByRating(allResults)
+})
+
+ratingButtons.forEach(item => {
+    console.log(item.innerHTML)
+    item.addEventListener('click', function (){
+        filterRating(item.innerHTML, allResults)
+    })
+})
+function filterRating(rating, data){
+    const filteredData = data.filter(item => {
+        if(item.Ratings.length !== 0){
+            return item.Ratings[0].Value.slice(0, 1) == rating
+        }
+    })
+    renderNewFilteredOrSortedData(filteredData, 'No series found with this rating')
+}
+function sortItemByYear(data){
+    const filteredData = data.sort(function(a, b){return parseInt(a.Year.slice(0, 3)) - parseInt(b.Year.slice(0, 3))})
+    renderNewFilteredOrSortedData(filteredData, 'Any results')
+}
+function sortItemByRating(data){
+    const filteredData = data.sort(function(a, b){
+        if(a.Ratings.length !== 0 && b.Ratings.length !== 0){
+            return a.Ratings[0].Value.slice(0, 1) - b.Ratings[0].Value.slice(0, 1)
+        }
+        else{
+            return 0
+        }
+    })
+    renderNewFilteredOrSortedData(filteredData, 'Any results')
+}
+function renderNewFilteredOrSortedData(data, info){
+    clearBox('series-container')
+    if(data.length > 0){
+        data.forEach(item => {
+            mainSection.appendChild(createSingleSeriesItem(item))
+        })
+    }
+    else{
+        noResults(info)
+    }
 }
 function clearBox(elementID){
     document.getElementById(elementID).innerHTML = ""

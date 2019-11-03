@@ -174,7 +174,7 @@ textarea:focus, input:focus, button:focus, .filter-and-sort__sort:focus, .filter
     color: black;
     font-weight: 600;
 }
-.filter-buttons__button{
+.sort-buttons__button{
     margin-right: 5px;
     background: none;
     font-size: 14px;
@@ -185,14 +185,14 @@ textarea:focus, input:focus, button:focus, .filter-and-sort__sort:focus, .filter
     width: 50px;
 }
 @media all and (max-width: 520px) {
-    .filter-buttons__button{
+    .sort-buttons__button{
         font-size: 8px;
         width: 20px;
         margin-right: 2px;
         padding: 2px;
     }
 }
-.filter-buttons__button:hover{
+.sort-buttons__button:hover{
     cursor: pointer;
     color: black;
     font-weight: 600;
