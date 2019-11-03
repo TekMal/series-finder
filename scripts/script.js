@@ -1,12 +1,17 @@
 const searchButton = document.getElementById('find')
+const inputSearch = document.getElementById('series-search')
 const mainSection = document.getElementById("series-container")
 const plotLength = 100
+const controller = new AbortController()
+const signal = controller.signal
 searchButton.addEventListener('click', searchSeries)
+addKeypressSearch(inputSearch)
 
 function searchSeries(){
+    controller.abort()
     clearBox('series-container')
-    const inputSearch = (document.getElementById('series-search').value).toString()
-    fetch(`http://www.omdbapi.com/?type=series&s=${inputSearch}&r=json&apikey=40e9cece`)
+    const inputSearchValue = inputSearch.value.toString()
+    fetch(`http://www.omdbapi.com/?type=series&s=${inputSearchValue}&r=json&apikey=40e9cece`)
     .then(
     function(response) {
       if (response.status !== 200) {
@@ -14,7 +19,7 @@ function searchSeries(){
       }
       response.json().then(function(data) {
           if(data['Response'] === 'True'){
-            getTotalResults(Math.ceil(data['totalResults'] / 10), inputSearch)
+            getTotalResults(Math.ceil(data['totalResults'] / 10), inputSearchValue)
           }
           else{
             noResults('No results')
@@ -31,7 +36,7 @@ function getTotalResults(pages, title){
     for(let i=1; i<=pages; i++){
         urlsForPages.push(fetch(`http://www.omdbapi.com/?type=series&s=${title}&r=json&page=${i}&apikey=40e9cece`))
     }
-    Promise.all(urlsForPages).then(response => response.forEach(response => response.json().then(data => getAllData(data['Search']))))
+    Promise.all(urlsForPages, {signal}).then(response => response.forEach(response => response.json().then(data => getAllData(data['Search']))))
 }
 
 function getAllData(data){
@@ -39,7 +44,7 @@ function getAllData(data){
         getSingleSeriesById(item.imdbID)
       })
 }
-const allResults = []
+//const allResults = []
 function getSingleSeriesById(id){
     fetch(`http://www.omdbapi.com/?type=series&i=${id}&plot=short&r=json&apikey=40e9cece`)
     .then(
@@ -50,8 +55,7 @@ function getSingleSeriesById(id){
       response.json().then(function(data) {
           if(data['Response'] === 'True'){
             mainSection.appendChild(createSingleSeriesItem(data))
-            allResults.push(data)
-            console.log(allResults)
+            //allResults.push(data)
           }
           else{
             console.log("no result response : false")
@@ -96,7 +100,13 @@ function createTitle(item){
 function createDate(item){
     const year = createElementWithClassname('p', 'description__year')
         if(item.Year !== "N/A"){
-            year.innerHTML = item.Year}
+            if(isNaN(item.Year.slice(-1))){
+                year.innerHTML = item.Year.slice(0, -1);
+            }
+            else{
+                year.innerHTML = item.Year
+            }
+        }
         else{
             year.innerHTML = "unknown"
         }
@@ -145,4 +155,11 @@ function noResults(content){
     const info = createElementWithClassname('h2', 'info-no-results')
     info.innerHTML = content
     box.appendChild(info)
+}
+function addKeypressSearch(element){
+    element.addEventListener('keypress', function(e) {
+        if (e.keyCode == 13) {
+            searchSeries()
+        }
+    });
 }
