@@ -2,13 +2,12 @@ const searchButton = document.getElementById('find')
 const inputSearch = document.getElementById('series-search')
 const mainSection = document.getElementById("series-container")
 const plotLength = 100
-const controller = new AbortController()
-const signal = controller.signal
+//const controller = new AbortController()
+//const signal = controller.signal
 searchButton.addEventListener('click', searchSeries)
 addKeypressSearch(inputSearch)
-
+ 
 function searchSeries(){
-    controller.abort()
     clearBox('series-container')
     const inputSearchValue = inputSearch.value.toString()
     fetch(`http://www.omdbapi.com/?type=series&s=${inputSearchValue}&r=json&apikey=40e9cece`)
@@ -36,7 +35,7 @@ function getTotalResults(pages, title){
     for(let i=1; i<=pages; i++){
         urlsForPages.push(fetch(`http://www.omdbapi.com/?type=series&s=${title}&r=json&page=${i}&apikey=40e9cece`))
     }
-    Promise.all(urlsForPages, {signal}).then(response => response.forEach(response => response.json().then(data => getAllData(data['Search']))))
+    Promise.all(urlsForPages).then(response => response.forEach(response => response.json().then(data => getAllData(data['Search']))))
 }
 
 function getAllData(data){
@@ -78,6 +77,11 @@ function createSingleSeriesItem(item){
     description.appendChild(createRuntime(item))
     description.appendChild(createRating(item))
     description.appendChild(createPlot(item))
+    if(item.Awards !== "N/A"){
+        let star = createElementWithClassname('img', 'star')
+        star.src="https://img.icons8.com/color/48/000000/star--v2.png"
+        description.appendChild(star)
+    }
     seriesBox.appendChild(poster)
     seriesBox.appendChild(description)
     return seriesBox
@@ -133,7 +137,7 @@ function createRating(item){
 function createPlot(item){
     const plot = createElementWithClassname('p', 'description__plot')
     if(item.Plot !== "N/A"){
-        plot.innerHTML = item.Plot.substring(0, plotLength)}
+        plot.innerHTML = "Plot: " + item.Plot.substring(0, plotLength)}
     else{
         plot.innerHTML = "unknown"
     }
