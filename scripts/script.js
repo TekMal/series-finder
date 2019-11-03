@@ -2,12 +2,17 @@ const searchButton = document.getElementById('find')
 const inputSearch = document.getElementById('series-search')
 const mainSection = document.getElementById("series-container")
 const ratingButtons = document.querySelectorAll("[id=filter-rating]")
+const sortByRating = document.getElementById
+const sortByYear = document.getElementById
 const plotLength = 100
 let allResults = []
 //const controller = new AbortController()
 //const signal = controller.signal
 searchButton.addEventListener('click', searchSeries)
 addKeypressSearch(inputSearch)
+document.getElementById('filter-year').addEventListener('click', function (){
+    sortItemByYear(allResults)
+})
 
 ratingButtons.forEach(item => {
     console.log(item.innerHTML)
@@ -29,6 +34,18 @@ function filterRating(rating, data){
     }
     else{
         noResults('No series found with this rating')
+    }
+}
+function sortItemByYear(data){
+    const filteredData = data.sort(function(a, b){return parseInt(a.Year.slice(0, 3)) - parseInt(b.Year.slice(0, 3))})
+    clearBox('series-container')
+    if(filteredData.length > 0){
+        filteredData.forEach(item => {
+            mainSection.appendChild(createSingleSeriesItem(item))
+        })
+    }
+    else{
+        noResults('ojS')
     }
 }
 function searchSeries(){
