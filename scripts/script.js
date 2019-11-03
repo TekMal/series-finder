@@ -146,6 +146,9 @@ document.getElementById('sort-year').addEventListener('click', function (){
 document.getElementById('sort-rating').addEventListener('click', function (){
     sortItemByRating(allResults)
 })
+document.getElementById('sort-title').addEventListener('click', function (){
+    sortItemByTitle(allResults)
+})
 
 ratingButtons.forEach(item => {
     item.addEventListener('click', function (){
@@ -161,11 +164,11 @@ function filterRating(rating, data){
     renderNewFilteredOrSortedData(filteredData, 'No series found with this rating')
 }
 function sortItemByYear(data){
-    const filteredData = data.sort(function(a, b){return parseInt(a.Year.slice(0, 3)) - parseInt(b.Year.slice(0, 3))})
-    renderNewFilteredOrSortedData(filteredData, 'Any results')
+    const sortedData = data.sort(function(a, b){return parseInt(a.Year.slice(0, 3)) - parseInt(b.Year.slice(0, 3))})
+    renderNewFilteredOrSortedData(sortedData, 'Any results')
 }
 function sortItemByRating(data){
-    const filteredData = data.sort(function(a, b){
+    const sortedData = data.sort(function(a, b){
         if(a.Ratings.length !== 0 && b.Ratings.length !== 0){
             return a.Ratings[0].Value.slice(0, 1) - b.Ratings[0].Value.slice(0, 1)
         }
@@ -173,8 +176,14 @@ function sortItemByRating(data){
             return 0
         }
     })
-    renderNewFilteredOrSortedData(filteredData, 'Any results')
+    renderNewFilteredOrSortedData(sortedData, 'Any results')
 }
+function sortItemByTitle(data){
+    const sortedData = data.sort((a,b) => (a.Title > b.Title) ? 1 : ((b.Title > a.Title) ? -1 : 0))
+    renderNewFilteredOrSortedData(sortedData, 'Any results')
+}
+//objs.sort((a,b) => (a.Title > b.Title) ? 1 : ((b.Title > a.Title) ? -1 : 0))
+
 function renderNewFilteredOrSortedData(data, info){
     clearBox('series-container')
     if(data.length > 0){
