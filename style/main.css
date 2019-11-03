@@ -51,7 +51,7 @@
     border-radius: 30px;
     border: 2px solid #fff;
 }
-textarea:focus, input:focus, button:focus{
+textarea:focus, input:focus, button:focus, .filter-and-sort__sort:focus, .filter-and-sort__filter-year:focus, .filter-and-sort__filter-rating:focus{
     outline: none;
 }
 .navigation__button{
@@ -62,7 +62,7 @@ textarea:focus, input:focus, button:focus{
     padding: 10px;
     border: 1px solid 	#A0A0A0;
     color:	#A0A0A0;
-    border-radius: 52px;
+    border-radius: 30px;
     width: 110px;
 }
 @media all and (max-width: 827px) {
@@ -97,6 +97,38 @@ textarea:focus, input:focus, button:focus{
 .navigation__button:hover{
     cursor: pointer;
     color: #000000;
+}
+.filter-and-sort{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    color: 	#505050;
+    width: 100%;
+    height: 50px;
+    background-color:#F0F0F0;
+    margin: 0 0 5px 0
+}
+.filter-and-sort__sort-title, .filter-and-sort__filter-title{
+    font-size: 15px;;
+    margin-right: 10px;
+    margin-left: 10px;
+    color: 	#505050;
+}
+.filter-and-sort__sort, .filter-and-sort__filter-year, .filter-and-sort__filter-rating{
+    width: 10%;
+    font-size: 12px;
+    color: #505050;
+    font-family: "Arimo", sans-serif;
+    margin-right: 10px;
+    border: 1px solid 	#A0A0A0;
+    border-radius: 30px;
+    background: none;
+
+}
+.filter-and-sort__sort:hover, .filter-and-sort__filter-year:hover, .filter-and-sort__filter-rating:hover{
+    cursor: pointer;
 }
 .main-section{
     display: flex;
@@ -140,5 +172,6 @@ textarea:focus, input:focus, button:focus{
     margin: 2px;
 }
 .description__title{
+    color: 	#505050;
     margin: 0;
 }
