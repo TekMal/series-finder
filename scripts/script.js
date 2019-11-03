@@ -148,7 +148,6 @@ document.getElementById('sort-rating').addEventListener('click', function (){
 })
 
 ratingButtons.forEach(item => {
-    console.log(item.innerHTML)
     item.addEventListener('click', function (){
         filterRating(item.innerHTML, allResults)
     })
