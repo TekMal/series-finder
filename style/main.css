@@ -145,7 +145,7 @@ textarea:focus, input:focus, button:focus, .filter-and-sort__sort:focus, .filter
 .filter-and-sort__sort:hover, .filter-and-sort__filter-year:hover, .filter-and-sort__filter-rating:hover{
     cursor: pointer;
 }
-.rating-buttons{
+.rating-buttons, .sort-buttons{
     display:flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -186,8 +186,8 @@ textarea:focus, input:focus, button:focus, .filter-and-sort__sort:focus, .filter
 }
 @media all and (max-width: 520px) {
     .sort-buttons__button{
-        font-size: 8px;
-        width: 20px;
+        font-size: 4px;
+        width: 18px;
         margin-right: 2px;
         padding: 2px;
     }
