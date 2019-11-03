@@ -182,8 +182,6 @@ function sortItemByTitle(data){
     const sortedData = data.sort((a,b) => (a.Title > b.Title) ? 1 : ((b.Title > a.Title) ? -1 : 0))
     renderNewFilteredOrSortedData(sortedData, 'Any results')
 }
-//objs.sort((a,b) => (a.Title > b.Title) ? 1 : ((b.Title > a.Title) ? -1 : 0))
-
 function renderNewFilteredOrSortedData(data, info){
     clearBox('series-container')
     if(data.length > 0){
