@@ -17,13 +17,13 @@
             <button class="navigation__button" id="find">Search</button>
         </div>
         <div class="filter-and-sort">
-            <h3 class="filter-and-sort__sort-title">Sort by:</h3>
-            <select class="filter-and-sort__sort">
-                <option value="title">Title</option>
-                <option value="rating">Rating</option>
-                <option value="year">Year</option>
-            </select>
-            <h3 class="filter-and-sort__filter-title-year">Year:</h3>
+            <h3 class="filter-and-sort__title">Sort by:</h3>
+            <div class="filter-buttons">
+                <button class="filter-buttons__button" id="filter-title">Title</button>
+                <button class="filter-buttons__button" id="filter-rating">Rating</button>
+                <button class="filter-buttons__button" id="filter-year">Year</button>
+            </div>
+            <h3 class="filter-and-sort__title">Year:</h3>
             <select class="filter-and-sort__filter-year">
                 <option value="2019">2019</option>
                 <option value="2018">2018</option>
@@ -126,7 +126,7 @@
                 <option value="1931">1921</option>
                 <option value="1930">1920</option>
             </select>
-            <h3 class="filter-and-sort__filter-rating">Rating:</h3>
+            <h3 class="filter-and-sort__title">Rating:</h3>
             <div class="rating-buttons">
                 <button class="rating-buttons__button" id="filter-rating">1</button>
                 <button class="rating-buttons__button" id="filter-rating">2</button>

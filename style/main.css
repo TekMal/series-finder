@@ -113,14 +113,14 @@ textarea:focus, input:focus, button:focus, .filter-and-sort__sort:focus, .filter
         height: 30px;
     }
 }
-.filter-and-sort__sort-title, .filter-and-sort__filter-title-year, .filter-and-sort__filter-rating{
+.filter-and-sort__title{
     font-size: 15px;;
     margin-right: 10px;
     margin-left: 10px;
     color: 	#505050;
 }
 @media all and (max-width: 520px) {
-    .filter-and-sort__sort-title, .filter-and-sort__filter-title-year, .filter-and-sort__filter-rating{
+    .filter-and-sort__title{
         font-size: 8px;
         margin-right: 3px;
         margin-left: 3px;
@@ -170,6 +170,29 @@ textarea:focus, input:focus, button:focus, .filter-and-sort__sort:focus, .filter
     }
 }
 .rating-buttons__button:hover{
+    cursor: pointer;
+    color: black;
+    font-weight: 600;
+}
+.filter-buttons__button{
+    margin-right: 5px;
+    background: none;
+    font-size: 14px;
+    padding: 3px;
+    border: 1px solid 	#A0A0A0;
+    color: #505050;
+    border-radius: 30px;
+    width: 50px;
+}
+@media all and (max-width: 520px) {
+    .filter-buttons__button{
+        font-size: 8px;
+        width: 20px;
+        margin-right: 2px;
+        padding: 2px;
+    }
+}
+.filter-buttons__button:hover{
     cursor: pointer;
     color: black;
     font-weight: 600;
